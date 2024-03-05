@@ -1,0 +1,13 @@
+.bg{
+    margin-top: 0px;
+    height: 100vh;
+    background-color: #95abcd;
+    overflow: hidden;
+}
+
+.cadd{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+}

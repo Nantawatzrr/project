@@ -1,0 +1,470 @@
+// import * as React from "react";
+// import Forminput from "./Forminput";
+// import Table from "@mui/material/Table";
+// import TableBody from "@mui/material/TableBody";
+// import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+// import TableContainer from "@mui/material/TableContainer";
+// import TableHead from "@mui/material/TableHead";
+// import TablePagination from "@mui/material/TablePagination";
+// import TableRow from "@mui/material/TableRow";
+// import {
+//   Box,
+//   Button,
+//   Container,
+//   IconButton,
+//   Typography,
+// } from "@mui/material";
+// import EditNoteIcon from "@mui/icons-material/EditNote";
+// import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
+// import { styled } from "@mui/material/styles";
+
+// // format: (value) => value.toLocaleString("en-US")
+
+// const StyledTableCell = styled(TableCell)(({ theme }) => ({
+//   [`&.${tableCellClasses.head}`]: {
+//     backgroundColor:'#66CCCC',
+//     color: theme.palette.common.white,
+//   },
+//   [`&.${tableCellClasses.body}`]: {
+//     fontSize: 14,
+//   },
+// }));
+
+// const StyledTableRow = styled(TableRow)(({ theme }) => ({
+//     "&:nth-of-type(odd)": {
+//       backgroundColor: theme.palette.action.hover,
+//     },
+//     // hide last border
+//     "&:last-child td, &:last-child th": {
+//       border: 0,
+//     },
+//   }));
+
+// const columns = [
+//   { id: "name", label: "ผู้ป่วย" },
+//   { id: "age", label: "อายุ", align: "center" },
+//   {
+//     id: "weight",
+//     label: "Weight",
+//     align: "center",
+//     format: (value) => value.toFixed(2),
+//   },
+//   {
+//     id: "height",
+//     label: "height",
+//     align: "center",
+//     format: (value) => value.toFixed(2),
+//   },
+//   {
+//     id: "qtySbp",
+//     label: "SBP",
+//     align: "center",
+//   },
+//   {
+//     id: "qtyDpb",
+//     label: "DPB",
+//     align: "center",
+//   },
+//   {
+//     id: "pulse",
+//     label: "Pulse",
+//     align: "center",
+//   },
+// ];
+
+// function createData(name, age, weight, height, qtySbp, qtyDpb, pulse) {
+//   return { name, age, weight, height, qtySbp, qtyDpb, pulse };
+// }
+
+// const rows = [
+//   createData("นันทวัฒน์ มาศวิเศษ", 20, 65, 174, 150, 95, 84),
+//   createData("นายวิทยา", 28, 65, 180, 150, 95, 84),
+//   createData("นางสาวสุภาพร", 25, 55, 165, 110, 70, 80),
+//   createData("นายณัฐพล", 35, 80, 175, 125, 80, 72),
+//   createData("นางอรทัย", 32, 60, 160, 118, 72, 78),
+//   createData("นายประพล", 40, 75, 178, 130, 85, 68),
+//   createData("นางสาวศุภรัตน์ ", 27, 52, 162, 112, 68, 75),
+//   createData("นายสุรชัย", 38, 78, 172, 128, 82, 70),
+//   createData("นางจารุวรรณ", 29, 58, 168, 114, 74, 77),
+//   createData("นายพีรศักดิ์", 33, 72, 176, 122, 78, 74),
+//   createData("นางสาวปราณี", 31, 65, 170, 118, 76, 79),
+// ];
+
+// export default function StickyHeadTable() {
+//   const [page, setPage] = React.useState(0);
+//   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+//   const handleChangePage = (event, newPage) => {
+//     setPage(newPage);
+//   };
+
+//   const handleChangeRowsPerPage = (event) => {
+//     setRowsPerPage(+event.target.value);
+//     setPage(0);
+//   };
+
+//   return (
+//     <Box>
+//       <Container>
+//         <Typography
+//           sx={{
+//             textAlign: "center",
+//             marginBottom: 3,
+//             marginTop: 10,
+//             fontSize: 25,
+//           }}
+//         >
+//           ตารางผู้ป่วย
+//         </Typography>
+//         <TableContainer sx={{ maxHeight: 440 }}>
+//           <Table aria-label="customized table">
+//             <TableHead>
+//               <TableRow>
+//                 <StyledTableCell>ผู้ป่วย</StyledTableCell>
+//                 <StyledTableCell align="center">อายุ</StyledTableCell>
+//                 <StyledTableCell align="center">น้ำหนัก</StyledTableCell>
+//                 <StyledTableCell align="center">ส่วนสูง</StyledTableCell>
+//                 <StyledTableCell align="center">SBP</StyledTableCell>
+//                 <StyledTableCell align="center">DPB</StyledTableCell>
+//                 <StyledTableCell align="center">
+//                 Pulse
+//                 </StyledTableCell>
+//                 <StyledTableCell></StyledTableCell>
+//                 <StyledTableCell></StyledTableCell>
+//               </TableRow>
+//             </TableHead>
+//             <TableBody>
+//               {rows
+//                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+//                 .map((row) => {
+//                   return (
+//                     <StyledTableRow hover role="checkbox" tabIndex={-1} key={row.age}>
+//                       {columns.map((column) => {
+//                         const value = row[column.id];
+//                         return (
+//                           <TableCell key={column.id} align={column.align}>
+//                             {column.format && typeof value === "number"
+//                               ? column.format(value)
+//                               : value}
+//                           </TableCell>
+//                         );
+//                       })}
+//                       <TableCell>
+//                         <IconButton color="warning" sx={{ fontSize: 14 }}>
+//                           <EditNoteIcon />
+//                           เเก้ไข
+//                         </IconButton>
+//                       </TableCell>
+//                       <TableCell>
+//                         <IconButton color="error" sx={{ fontSize: 14 }}>
+//                           <DeleteForeverOutlinedIcon />
+//                           ลบ
+//                         </IconButton>
+//                       </TableCell>
+//                     </StyledTableRow>
+//                   );
+//                 })}
+//             </TableBody>
+//           </Table>
+//         </TableContainer>
+//         <TablePagination
+//           rowsPerPageOptions={[10, 25, 100]}
+//           component="div"
+//           count={rows.length}
+//           rowsPerPage={rowsPerPage}
+//           page={page}
+//           onPageChange={handleChangePage}
+//           onRowsPerPageChange={handleChangeRowsPerPage}
+//           checkboxSelection
+//         />
+//           <Forminput/>
+//       </Container>
+//     </Box>
+//   );
+// }
+
+
+
+
+
+
+
+const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get("email"),
+      password: data.get("password"),
+    });
+
+    const jsonData = {
+      email: data.get("email"),
+      password: data.get("password"),
+      role: data.get("role")
+    };
+    fetch("http://localhost:3333/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(jsonData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status == "ok") {
+          swal({
+            title: "เข้าสู่ระบบ",
+            text: "ยินดีต้อนรับ",
+            icon: "success",
+            timer: 890,
+            buttons: false,
+          }).then(() => {
+            localStorage.setItem("token", data.token);
+            window.location = "/superAdmin";
+          });
+        } else {
+          swal({
+            title: "รหัสผ่านไม่ถูกต้อง",
+            text: "You clicked the button!",
+            icon: "error",
+            timer: 890,
+            button: false,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error", error);
+      });
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from tkinter import *
+from tkinter import ttk, messagebox
+import mysql.connector
+from mysql.connector import errorcode
+from PIL import Image, ImageTk
+
+win = Tk()
+win.geometry('900x520')
+win.option_add('*font', 'tahoma 10')
+win.option_add('*Button*background', 'lightgray')
+
+cnx = mysql.connector.connect(user="root", password="", host="127.0.0.1", database="db_library")
+cursor = cnx.cursor()
+
+show_columns = ['id', 'm_user', 'm_pass', 'm_name', 'm_phone', 'edit', 'delete']
+column_widths = [100, 100, 100, 100, 100, 125, 125]  # Adjust the column widths as needed
+
+def show_data():
+    for row in tree.get_children():
+        tree.delete(row)
+    
+    sql = 'SELECT * FROM tb_member'
+    cursor.execute(sql)
+    rows = cursor.fetchall()
+
+    for idx, row in enumerate(rows, start=1):
+        edit_image = Image.open("edit_icon.png")  # Provide the path to your edit icon image
+        edit_icon = ImageTk.PhotoImage(edit_image)
+
+        edit_button = Button(tree, image=edit_icon, text='แก้ไข', compound="left", command=lambda r=row[0]: edit_data(r))
+        edit_button.image = edit_icon  # Keep a reference to the image
+        tree.insert('', 'end', values=[idx] + list(row) + [edit_button, ''])  # Add the button to the end of the row
+
+def search_data(keyword):
+    if not keyword:  # If the keyword is empty, show all data
+        show_data()
+        return
+
+    sql = 'SELECT * FROM tb_member WHERE m_user LIKE %s OR m_name LIKE %s'
+    cursor.execute(sql, (f'%{keyword}%', f'%{keyword}%'))
+    rows = cursor.fetchall()
+
+    if not rows:
+        messagebox.showinfo('ไม่พบข้อมูล', 'ไม่พบข้อมูลที่ค้นหา')
+        return
+
+    for row in tree.get_children():
+        tree.delete(row)
+
+    for idx, row in enumerate(rows, start=1):
+        edit_image = Image.open("edit_icon.png")  # Provide the path to your edit icon image
+        edit_icon = ImageTk.PhotoImage(edit_image)
+
+        edit_button = Button(tree, image=edit_icon, text='แก้ไข', compound="left", command=lambda r=row[0]: edit_data(r))
+        edit_button.image = edit_icon  # Keep a reference to the image
+        tree.insert('', 'end', values=[idx] + list(row) + [edit_button, ''])  # Add the button to the end of the row
+
+def on_search():
+    keyword = entry_search.get()
+    search_data(keyword)
+
+def add_member_window():
+    new_window = Toplevel(win)
+    new_window.title('เพิ่มข้อมูลสมาชิกใหม่')
+
+    # Labels and Entry widgets for the member data entry form
+    Label(new_window, text='ชื่อผู้ใช้:').grid(row=0, column=0, padx=10, pady=5)
+    entry_username = Entry(new_window, width=20)
+    entry_username.grid(row=0, column=1, padx=10, pady=5)
+
+    Label(new_window, text='รหัสผ่าน:').grid(row=1, column=0, padx=10, pady=5)
+    entry_password = Entry(new_window, show='', width=20)  # Show '' for password
+    entry_password.grid(row=1, column=1, padx=10, pady=5)
+
+    Label(new_window, text='ชื่อ-สกุล:').grid(row=2, column=0, padx=10, pady=5)
+    entry_fullname = Entry(new_window, width=20)
+    entry_fullname.grid(row=2, column=1, padx=10, pady=5)
+
+    Label(new_window, text='เบอร์โทรศัพท์:').grid(row=3, column=0, padx=10, pady=5)
+    entry_phone = Entry(new_window, width=20)
+    entry_phone.grid(row=3, column=1, padx=10, pady=5)
+
+    # Button for adding a new member
+    Button(new_window, text='เพิ่มสมาชิก', command=lambda: add_member(
+        entry_username.get(),
+        entry_password.get(),
+        entry_fullname.get(),
+        entry_phone.get(),
+        new_window
+    )).grid(row=4, column=0, columnspan=2, pady=10)
+
+    # Button for canceling the operation
+    Button(new_window, text='ยกเลิก', command=new_window.destroy).grid(row=5, column=0, columnspan=2, pady=5)
+
+def add_member(username, password, fullname, phone, top_level):
+    try:
+        # Check for duplicate username
+        check_duplicate_sql = 'SELECT COUNT(*) FROM tb_member WHERE m_user = %s'
+        cursor.execute(check_duplicate_sql, (username,))
+        count = cursor.fetchone()[0]
+        if count > 0:
+            messagebox.showerror('ข้อผิดพลาด', 'ไม่สามารถเพิ่มข้อมูลได้ เนื่องจากมีชื่อผู้ใช้นี้แล้ว')
+        else:
+            insert_sql = 'INSERT INTO tb_member (m_user, m_pass, m_name, m_phone) VALUES (%s, %s, %s, %s)'
+            values = (username, password, fullname, phone)
+            cursor.execute(insert_sql, values)
+            cnx.commit()
+            messagebox.showinfo('เพิ่มข้อมูลสำเร็จ', 'ทำรายการสำเร็จ')
+            show_data()
+            top_level.destroy()
+    except Exception as e:
+        messagebox.showerror('เกิดข้อผิดพลาด', f'เกิดข้อผิดพลาด: {str(e)}')
+
+def edit_data(row_id):
+    edit_window = Toplevel(win)
+    edit_window.title('แก้ไขข้อมูลสมาชิก')
+    
+    # Fetch the existing data for the selected member
+    fetch_sql = 'SELECT * FROM tb_member WHERE id = %s'
+    cursor.execute(fetch_sql, (row_id,))
+    member_data = cursor.fetchone()
+
+    # Labels and Entry widgets for the member data entry form
+    Label(edit_window, text='ชื่อผู้ใช้:').grid(row=0, column=0, padx=10, pady=5)
+    entry_username = Entry(edit_window, width=20)
+    entry_username.grid(row=0, column=1, padx=10, pady=5)
+    entry_username.insert(0, member_data[1])  # Set the current username
+
+    Label(edit_window, text='รหัสผ่าน:').grid(row=1, column=0, padx=10, pady=5)
+    entry_password = Entry(edit_window, show='', width=20)  # Show '' for password
+    entry_password.grid(row=1, column=1, padx=10, pady=5)
+    entry_password.insert(0, member_data[2])  # Set the current password
+
+    Label(edit_window, text='ชื่อ-สกุล:').grid(row=2, column=0, padx=10, pady=5)
+    entry_fullname = Entry(edit_window, width=20)
+    entry_fullname.grid(row=2, column=1, padx=10, pady=5)
+    entry_fullname.insert(0, member_data[3])  # Set the current full name
+
+    Label(edit_window, text='เบอร์โทรศัพท์:').grid(row=3, column=0, padx=10, pady=5)
+    entry_phone = Entry(edit_window, width=20)
+    entry_phone.grid(row=3, column=1, padx=10, pady=5)
+    entry_phone.insert(0, member_data[4])  # Set the current phone number
+
+    # Button for updating the member data
+    Button(edit_window, text='บันทึกการแก้ไข', command=lambda: update_member(
+        row_id,
+        entry_username.get(),
+        entry_password.get(),
+        entry_fullname.get(),
+        entry_phone.get(),
+        edit_window
+    )).grid(row=4, column=0, columnspan=2, pady=10)
+
+    # Button for canceling the operation
+    Button(edit_window, text='ยกเลิก', command=edit_window.destroy).grid(row=5, column=0, columnspan=2, pady=5)
+
+def update_member(row_id, username, password, fullname, phone, top_level):
+    try:
+        # Check for duplicate username excluding the current member being edited
+        check_duplicate_sql = 'SELECT COUNT(*) FROM tb_member WHERE m_user = %s AND id != %s'
+        cursor.execute(check_duplicate_sql, (username, row_id))
+        count = cursor.fetchone()[0]
+        if count > 0:
+            messagebox.showerror('ข้อผิดพลาด', 'ไม่สามารถแก้ไขข้อมูลได้ เนื่องจากมีชื่อผู้ใช้นี้แล้ว')
+        else:
+            # Update member data
+            update_sql = 'UPDATE tb_member SET m_user = %s, m_pass = %s, m_name = %s, m_phone = %s WHERE id = %s'
+            values = (username, password, fullname, phone, row_id)
+            cursor.execute(update_sql, values)
+            cnx.commit()
+            messagebox.showinfo('แก้ไขข้อมูลสำเร็จ', 'ทำรายการสำเร็จ')
+            show_data()
+            top_level.destroy()
+    except Exception as e:
+        messagebox.showerror('เกิดข้อผิดพลาด', f'เกิดข้อผิดพลาด: {str(e)}')
+
+def delete_data(row_id):
+    # Add your code here for deleting data based on the row_id
+    pass
+
+def on_edit(event):
+    item = tree.selection()[0]
+    row_id = tree.item(item, 'values')[0]
+    edit_data(row_id)
+
+def on_delete(event):
+    item = tree.selection()[0]
+    row_id = tree.item(item, 'values')[0]
+    delete_data(row_id)
+
+tree = ttk.Treeview(win, columns=show_columns, show='headings', height=20)
+for col, heading, width in zip(show_columns, ['ลำดับ  ', 'ชื่อผู้ใช้', 'รหัสผ่าน', 'ชื่อ-สกุล', 'เบอร์โทรศัพท์', 'แก้ไข', 'ลบ'], column_widths):
+    tree.heading(col, text=heading)
+    tree.column(col, width=width)
+
+# Bind events for editing and deleting
+tree.bind('<ButtonRelease-1>', on_edit)  # Left-click event for editing
+tree.bind('<Delete>', on_delete)  # Delete key event for deleting
+
+tree.grid(row=2, column=0, padx=10, pady=10, columnspan=3)  # Adjusted the columnspan to 3
+
+# Frame for search
+frame_search = LabelFrame(win, text='การจัดการข้อมูลสมาชิก')  # Adjusted the justify option
+frame_search.grid(row=0, column=0, padx=10, pady=5, sticky=W, columnspan=3)  # Adjusted the columnspan to 3
+Label(frame_search, text='ค้นหา (ชื่อผู้ใช้หรือชื่อสกุล):').grid(row=0, column=0, padx=10, pady=10)
+entry_search = Entry(frame_search, width=20)
+entry_search.grid(row=0, column=1, padx=10, pady=10)
+Button(frame_search, text='ค้นหา', command=on_search).grid(row=0, column=2, padx=10, pady=10)
+
+# Button for adding new member data
+Button(win, text='เพิ่มข้อมูลสมาชิก', command=add_member_window).grid(row=1, column=0, padx=10, pady=10, columnspan=3)
+
+mainloop()

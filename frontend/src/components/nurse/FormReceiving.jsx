@@ -1,0 +1,282 @@
+import * as React from "react";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+// import Autocomplete from "@mui/material/Autocomplete";
+import { Button, Container } from "@mui/material";
+import VitalSignService from "../../services/VitalSignService";
+import DataVitalsign from "./DataVitalsign";
+
+export default function AddressForm({ selectedvitalSing, formMode }) {
+  const [vitalSignId, setVitalSignId] = React.useState([""]);
+  const [patientId, setPatientId] = React.useState([""]);
+  const [dateTime, setDateTime] = React.useState([""]);
+  const [createdBy, setCreatedBy] = React.useState([""]);
+  const [BP_SYS, setBP_SYS] = React.useState([""]);
+  const [BP_DIA, setBP_DIA] = React.useState([""]);
+  const [pulse, setPulse] = React.useState([""]);
+  const [weight, setWeight] = React.useState([""]);
+  const [height, setHeight] = React.useState([""]);
+  const [o2, setO2] = React.useState([""]);
+  const [glucose, setGlucose] = React.useState([""]);
+
+  React.useEffect(() => {
+    if (selectedvitalSing) {
+      setVitalSignId(selectedvitalSing.vitalSignId || "");
+      setPatientId(selectedvitalSing.patientId || "");
+      setDateTime(selectedvitalSing.dateTime || "");
+      setCreatedBy(selectedvitalSing.createdBy || "");
+      setBP_SYS(selectedvitalSing.BP_SYS || "");
+      setBP_DIA(selectedvitalSing.BP_DIA || "");
+      setPulse(selectedvitalSing.pulse || "");
+      setWeight(selectedvitalSing.weight || "");
+      setHeight(selectedvitalSing.height || "");
+      setO2(selectedvitalSing.o2 || "");
+      setGlucose(selectedvitalSing.glucose || "");
+    }
+  }, [selectedvitalSing]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (
+      !patientId ||
+      !dateTime ||
+      !createdBy ||
+      !BP_SYS ||
+      !BP_DIA ||
+      !pulse ||
+      !weight ||
+      !height ||
+      !o2 ||
+      !glucose
+    ) {
+      setError("Please fill in all required fields.");
+      return;
+    }
+    if (formMode === "Add") {
+      try {
+        const postData = {
+          patientId: patientId,
+          dateTime: dateTime,
+          createdBy: createdBy,
+          BP_SYS: BP_SYS,
+          BP_DIA: BP_DIA,
+          pulse: pulse,
+          weight: weight,
+          height: height,
+          o2: o2,
+          glucose: glucose,
+        };
+        console.log(postData);
+        const response = await VitalSignService.AddvitalSign(
+          patientId,
+          postData
+        );
+        if (response.status == 200) {
+          swal({
+            title: "บันทึกเสร็จสิ้น",
+            text: "ขอบคุณ",
+            icon: "success",
+            timer: 890,
+            buttons: false,
+          }).then(() => {
+            window.location.reload();
+          });
+        }
+      } catch {
+        console.error("Error", error);
+      }
+    } else if (formMode === "Update") {
+      try {
+        const updateData = {
+          vitalSignId: vitalSignId,
+          dateTime: dateTime,
+          createdBy: createdBy,
+          BP_SYS: BP_SYS,
+          BP_DIA: BP_DIA,
+          pulse: pulse,
+          weight: weight,
+          height: height,
+          o2: o2,
+          glucose: glucose,
+        };
+        const response = await VitalSignService.editVital(
+          vitalSignId,
+          updateData
+        );
+        if (response.status == 200) {
+          swal({
+            title: "อัพเดทเสร็จสิ้น",
+            text: "ขอบคุณ",
+            icon: "success",
+            timer: 890,
+            buttons: false,
+          }).then(() => {
+            window.location.reload();
+          });
+        }
+      } catch (error) {
+        console.error("Error", error);
+      }
+    }
+  };
+  return (
+    <React.Fragment>
+      <Container
+        sx={{ marginTop: 12 }}
+        component="form"
+        onSubmit={handleSubmit}
+      >
+        {/* <Typography variant="h4" gutterBottom align="center">
+          ลงข้อมูลสัญญาณชีพ
+        </Typography> */}
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={4}>
+            <Typography sx={{ fontSize: 15 }}>วันที่เข้ารับบริการ</Typography>
+            <TextField
+              required
+              id="dateTime"
+              name="dateTime"
+              type="date"
+              value={dateTime}
+              onChange={(e) => setDateTime(e.target.value)}
+              fullWidth
+              autoComplete="family-name"
+              variant="standard"
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+             
+              id="id"
+              name="id"
+              label="vitalID"
+              value={vitalSignId}
+              onChange={(e) => setVitalSignId(e.target.value)}
+              fullWidth
+              autoComplete="shipping address-line1"
+              variant="standard"
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              required
+              id="patientId"
+              name="patientId"
+              label="patientId"
+              value={patientId}
+              onChange={(e) => setPatientId(e.target.value)}
+              fullWidth
+              autoComplete="shipping address-line1"
+              variant="standard"
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              required
+              id="createdBy"
+              name="createdBy"
+              label="createdBy"
+              value={createdBy}
+              onChange={(e) => setCreatedBy(e.target.value)}
+              fullWidth
+              autoComplete="shipping address-line1"
+              variant="standard"
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              id="BP_SYS"
+              name="BP_SYS"
+              label="BP_SYS"
+              value={BP_SYS}
+              onChange={(e) => setBP_SYS(e.target.value)}
+              fullWidth
+              autoComplete="shipping address-line2"
+              variant="standard"
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              type="BP_DIA"
+              id="BP_DIA"
+              name="BP_DIA"
+              label="BP_DIA"
+              value={BP_DIA}
+              onChange={(e) => setBP_DIA(e.target.value)}
+              fullWidth
+              autoComplete="shipping address-line2"
+              variant="standard"
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              id="pulse"
+              name="pulse"
+              label="pulse"
+              value={pulse}
+              onChange={(e) => setPulse(e.target.value)}
+              fullWidth
+              variant="standard"
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={3}>
+            <TextField
+              id="weight"
+              name="weight"
+              label="weight"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
+              fullWidth
+              variant="standard"
+            />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <TextField
+              id="height"
+              name="height"
+              label="height"
+              value={height}
+              onChange={(e) => setHeight(e.target.value)}
+              type="number"
+              fullWidth
+              variant="standard"
+            />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <TextField
+              id="o2"
+              name="o2"
+              label="o2"
+              value={o2}
+              onChange={(e) => setO2(e.target.value)}
+              fullWidth
+              variant="standard"
+            />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <TextField
+              id="glucose"
+              name="glucose"
+              label="glucose"
+              value={glucose}
+              onChange={(e) => setGlucose(e.target.value)}
+              type="number"
+              fullWidth
+              variant="standard"
+            />
+          </Grid>
+        </Grid>
+        <Button
+          type="submit"
+          variant="contained"
+          color="success"
+          sx={{ backgroundColor: "#00CD66", marginBottom: 5, marginTop: 5 }}
+        >
+          {formMode === "Add" ? "เพิ่ม" : "อัพเดท"}
+        </Button>
+      </Container>
+    </React.Fragment>
+  );
+}
